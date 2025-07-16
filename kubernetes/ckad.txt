@@ -1,0 +1,90 @@
+These are the commands I used for the CKAD exam. https://training.linuxfoundation.org/certification/certified-kubernetes-application-developer-ckad/
+
+##### Pods and Namespaces #####
+- kubectl create namespace ckad
+- kubectl run nginx 
+    --image="nginx:1.17.10" -n ckad
+    --env DB_URL="postgresql://mydb:5432"
+    --env DB_USERNAME="admin"
+- kubectl expose pod nginx --port=80 -n ckad
+- kubectl run busybox
+    --image="busybox:1.36.1"
+    --rm
+    -it
+    --restart=Never
+    -- wget 10.42.0.50
+- kubectl exec -it -n ckad nginx -- sh
+- kubectl run loop
+    --image="busybox:1.36.1"
+    --restart=Never
+    --dry-run=client
+    --output=yaml
+    -- sh -c ’for i in 1 2 3 4 5 6 7 8 9 10; do echo "Welcome $i times"; done’
+    > exercise.yaml
+- kubectl config set-context --namespace="mynamespace"
+- kubectl run tmp
+    --image="alpine/curl:3.14"
+    --rm -it --restart=Never
+    -- curl -sI nginx.default.svc.cluster.local
+
+##### Jobs and CronJobs #####
+- kubectl create job busybox
+    --image=busybox
+    --dry-run=client
+    --output=yaml
+    -- echo ’Hello World’
+- kubectl create job random-hash
+    --image=alpine:3.17.3
+    --dry-run=client
+    --output=yaml
+    -- sh -c ’echo $RANDOM | base64 | head -c 20’
+    > random-hash.yaml
+- kubectl create cronjob google-ping
+    --image=nginx
+    --schedule="*/2 * * * *"
+    --dry-run=client
+    --output=yaml
+    -- sh -c ’curl www.google.com’
+    > google-ping.yaml
+
+##### Labels and Annotations #####
+- kubectl label pod my-pod mylabel=myvalue
+- kubectl annotate pod my-pod my-annotation=myvalue
+- kubectl label pod backend status=unhealthy --overwrite
+- kubectl get pods --selector="team in (shiny, legacy),env=prod" --show-labels
+
+##### Deployments #####
+- kubectl create deployment nginx --image="nginx" --replicas=3
+- kubectl scale deployment/nginx --replicas=5
+- kubectl rollout history deployment/nginx
+- kubectl rollout history deployment/nginx --to-revision=1
+- kubectl set image deployment server-deployment grand-server="nginx:1.25.3-alpine"
+- kubectl rollout history deployment/server-deployment
+- kubectl annotate deployments.apps nginx kubernetes.io/change-cause="Pick up patch version"
+
+##### Helm & Kustomize #####
+- helm repo list
+- helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+- helm repo update prometheus-community
+- helm search repo kube-prometheus
+- helm install prometheus prometheus-community/kube-prometheus-stack
+- helm list
+- helm uninstall prometheus
+- kubectl apply -k .
+- kubectl delete -k .
+
+##### Api Deprecations #####
+- kubectl api-versions
+
+##### Troubleshooting #####
+- kubectl top pod stress-3
+- kubectl get events
+- kubectl describe
+- kubectl exec -it pod_name -- sh
+- kubectl get pod pod_name -o yaml
+
+##### Authentication and Authorization #####
+- kubectl create clusterrole list-services-clusterrole --verb=list,get --resource=pods,services
+- kubectl create rolebinding serviceaccount-service-rolebinding
+    --clusterrole=>list-services-clusterrole
+    --serviceaccount=t23:api-call
