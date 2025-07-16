@@ -1,0 +1,9 @@
+- docker build -t node-js-hello-world:1.0.0 -f .\Dockerfile .
+- docker run -d -p 3000:3000 nodejs-hello-world:1.0.0
+- docker image ls
+- docker container ls
+- docker stop <container_id>
+- docker pull alpine:3.18.2
+- docker save -o alpine-3.18.2.tar alpine:3.18.2
+- docker image rm alpine:3.18.2
+- docker load -i alpine-3.18.2.tar
