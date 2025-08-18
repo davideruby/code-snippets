@@ -1,0 +1,16 @@
+## Config
+- git config --add [--global] user.name rubi
+- git config --get user.name  # --get is optional
+- git config --unset user.name
+- git config --list [--local]
+- git config --unset-all user.name 
+- git config --remove-section <section>
+
+## Branching
+- git branch
+- git branch my-new-branch
+- git switch -c my-new-branch  # or, the old way: git checkout -m my-new-branch
+
+## Merge
+- git merge feature # merge feature into current-branch
+- git log --oneline --decorate --parents
