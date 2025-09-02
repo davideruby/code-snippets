@@ -12,5 +12,30 @@
 - git switch -c my-new-branch  # or, the old way: git checkout -m my-new-branch
 
 ## Merge
-- git merge feature # merge feature into current-branch
+- git merge feature  # merge feature into current-branch
 - git log --oneline --decorate --parents
+- git merge --abort
+
+## Rebase
+  # Set the initial commit of the current branch on the latest commit of main.
+  # For example, if branch b has commits b1, b2 and b3, "git rebase main" will do:
+  # main -> b1 -> b2 -> b3 
+- git rebase main  
+
+## Reset
+- git reset --soft HEAD~1  # undo the last commit while keeping the changes (staged but not committed)
+  # this will reset your working directory and index to the state of that commit, and all the changes made after that commit are lost forever. Be super careful with this.
+- git reset --hard a1b2c3 
+
+## Remote
+  # In git, another repo is called a "remote". The standard convention is that when you are treating the remote 
+  # as "the authoritative source of truth" (such as Github) you would name it the "origin".
+  # By the way, in git, a remote is just another repo, and it can be even a local repo. Sometimes people think remote are only
+  # available on Github, but it is not true.
+- git remote add origin ../another-local-repo
+- git fetch  # this downloads copies of all the contents of the .git/objects directory from the remote repository into your current one.
+- git log origin/branch  # show commits of the remote branch 
+- git merge origin/main
+
+## Squash
+- git rebase -i HEAD~n  # n is the number of commits to be squashed.
