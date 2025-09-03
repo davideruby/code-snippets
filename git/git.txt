@@ -39,3 +39,33 @@
 
 ## Squash
 - git rebase -i HEAD~n  # n is the number of commits to be squashed.
+
+## Stash
+- git stash
+- git stash -m "almost working"
+- git stash list
+- git stash pop  # apply your most recent stash.
+- git stash apply stash@{2}  # apply the third (0, 1, 2) most recent stash.
+- git stash drop stash@{2}  # drop the third most recent stash.
+
+## Revert
+- git revert <commit-hash>  # it creates a commit doing the exact opposite of <commit-hash>
+
+## Diff
+- git diff 
+- git diff HEAD~1
+- git diff <commit-hash1> <commit-hash2>
+
+## Cherry Pick
+  # Use this when you want a specific commit from a branch and not the entire branch
+- git cherry-pick <commit-hash>
+
+## Bisect
+- git bisect start
+- git bisect good
+- git bisect bad
+- git bisect reset
+- git bisect run ./scripts/bisect.sh  # bisect.sh returns 1 for bad and 0 for good
+
+## Tags
+- git tag -a "major.minor.patch" -m "tag message"  # semantic versioning (semver)
